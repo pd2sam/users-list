@@ -4,8 +4,14 @@ import { IProduct } from "./types/types";
 
 
 export function Product({title, price}: IProduct) {
+    const [count, setCount] = useState(0);
+    const handleAdd = () => {
+        setCount(count + 1);
+    }
     return <div>
         {title}
-        {price}
+        {price} <br />
+        <h2>Products: {count}</h2>
+        <button onClick={handleAdd}>Add product</button>
     </div>
 }
