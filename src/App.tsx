@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Product } from "./productList";
 import './App.css';
 
 
@@ -12,6 +13,9 @@ export const App: React.FC = () => {
             <button onClick={() => setCount(c => c + 1)}>
                 Increment
             </button>
+            <Product title="orange" 
+            price='$2.5'>
+            </Product>
         </div>
     )
 }
