@@ -1,26 +1,50 @@
 import { IUser } from '@/shared/types/types';
 import './App.css';
 import { UserCard } from '@/entities/user/ui/UserCard';
+import { useEffect, useState } from 'react';
+import { Spin } from 'antd';
+import dayjs from 'dayjs';
 
-const mockUsers: IUser[] = [
-    { id: '1', name: 'Jon Doe', email: 'a@f', avatar: 'jj' },
-    { id: '2', name: 'Angela', email: '$50', avatar: 'fd' },
-    { id: '3', name: 'Lucio', email: '$11', avatar: '#' }
-]
 
 export const App: React.FC = () => {
+    const [users, setUsers] = useState<IUser[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch('https://6981cd53c9a606f5d448166e.mockapi.io//users');
+                const data = await response.json();
+                setUsers(data);
+            } catch (error) {
+                console.error('Ошибка при загрузке:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, [])
+
+    if (isLoading) {
+        return <div>
+            <Spin />
+        </div>
+    }
 
     return (
         <div>
-            {mockUsers.map((user) => (
+
+            {users.map((user) => (
                 <UserCard
                     key={user.id}
                     id={user.id}
                     name={user.name}
                     email={user.email}
-                    avatar={user.avatar}>
+                    avatar={user.avatar} 
+                    createdAt={user.createdAt}/>
 
-                </UserCard>
+
             ))}
 
         </div>
