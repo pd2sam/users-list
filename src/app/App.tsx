@@ -1,10 +1,12 @@
 import './App.css';
-import { UserPage } from '@/pages/userPage';
-
+import { AuthProvider } from './providers/AuthContext';
+import { AppContent } from './AppContent'
 
 export const App: React.FC = () => {
+
     return <>
-        <UserPage/>
+        <AuthProvider>
+            <AppContent />
+        </AuthProvider>
     </>
-    
-}
+};

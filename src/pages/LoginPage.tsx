@@ -1,15 +1,24 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Input from "antd/es/input/Input";
-import { Button } from "antd";
+import { Button, Divider } from "antd";
+import { AuthContext } from "@/app/providers/AuthContext";
 
 
 export function LoginPage() {
+    const auth = useContext(AuthContext);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('данные для входа', { login, password });
+        if (login === 'admin' && password === '123') {
+            auth?.login();
+            alert('Вы успешно вошли!');
+            setError(null);
+        } else {
+            setError('Неправильный логин или пароль');
+        }
 
 
 
@@ -31,9 +40,12 @@ export function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button type="primary">Войти</Button>
+                    <Button type="primary" htmlType="submit">Войти</Button>
                 </fieldset>
             </form>
+            {error ? (
+                <p>{error}</p>
+            ) : null}
         </div>
     )
 }
