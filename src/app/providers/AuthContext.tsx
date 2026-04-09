@@ -1,8 +1,9 @@
-import { createContext, useState, ReactNode, Children } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 interface IAuth {
     isAuth: boolean;
-    login: () => void;
+    userName: string | null;
+    logIn: (userName: string) => void;
     logout: () => void;
 }
 
@@ -10,12 +11,19 @@ export const AuthContext = createContext<IAuth | null>(null);
 
 export const AuthProvider = ({children}: {children: ReactNode}) => {
     const [isAuth, setIsAuth] = useState(false);
+    const [userName, setUserName] = useState<string | null>(null);
 
-    const login = () => setIsAuth(true);
-    const logout = () => setIsAuth(false);
+    const logIn = (newUserName: string) => {
+        setIsAuth(true);
+        setUserName(newUserName);
+    }
+    const logout = () => {
+        setIsAuth(false);
+        setUserName(null);
+    }
 
     return (
-        <AuthContext.Provider value={{isAuth, login, logout}}>
+        <AuthContext.Provider value={{isAuth, logIn, logout, userName}}>
             {children}
         </AuthContext.Provider>
     );
