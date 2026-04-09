@@ -13,8 +13,7 @@ export function LoginPage() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (login === 'admin' && password === '123') {
-            auth?.login();
-            alert('Вы успешно вошли!');
+            auth?.logIn('Рада');
             setError(null);
         } else {
             setError('Неправильный логин или пароль');
