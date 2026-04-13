@@ -1,21 +1,31 @@
 import { useContext } from "react";
-import { Button } from "antd";
+import { useTheme } from "@/shared/lib/hooks/useTheme";
+import { Button, Switch } from "antd";
 import { AuthContext } from "@/app/providers/AuthContext";
 
 export function Header() {
     const auth = useContext(AuthContext);
+    const { theme, toggleTheme } = useTheme()
 
     return <>
         <header className="header">
             <div>
                 Grønn og Blå
             </div>
-            {auth?.isAuth && (
-                <div>
-                    <span>Привет, {auth.userName || 'Гость'}</span>
-                    <Button type="primary" danger onClick={() => auth.logout()}>Выйти</Button>
-                </div>
-            )}
+            <div className="switcher">
+                <Switch
+                    checked={theme === 'dark'}
+                    onChange={toggleTheme}
+                    checkedChildren="Dark"
+                    unCheckedChildren="Light"
+                />
+                {auth?.isAuth && (
+                    <>
+                        <span>Привет, {auth.userName || 'Гость'}</span>
+                        <Button type="primary" danger onClick={() => auth.logout()}>Выйти</Button>
+                    </>
+                )}
+            </div>
         </header>
     </>
 }
