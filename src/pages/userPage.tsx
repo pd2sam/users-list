@@ -12,8 +12,6 @@ export function UserPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-
-
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -29,8 +27,6 @@ export function UserPage() {
                 } else {
                     setError('Что-то пошло не так');
                 }
-
-
             } finally {
                 setIsLoading(false);
             }
@@ -45,7 +41,7 @@ export function UserPage() {
     if (error) {
         return <p>Ошибка: {error}</p>
     }
-    return (
+    return <>
         <div>
             {users.map((user) => (
                 <UserCard
@@ -57,6 +53,8 @@ export function UserPage() {
                 />
             ))}
         </div>
-    )
+    </>
+
+
 
 }
