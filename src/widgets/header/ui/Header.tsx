@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useTheme } from "@/shared/lib/hooks/useTheme";
 import { Button, Switch } from "antd";
 import { AuthContext } from "@/app/providers/AuthContext";
+import './Header.css';
 
 export function Header() {
     const auth = useContext(AuthContext);
@@ -10,7 +11,7 @@ export function Header() {
     return <>
         <header className="header">
             <div>
-                Grønn og Blå
+                <h1>I don't know these people</h1>
             </div>
             <div className="switcher">
                 <Switch
