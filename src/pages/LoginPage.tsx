@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import Input from "antd/es/input/Input";
-import { Button, Divider } from "antd";
+import { Button } from "antd";
 import { AuthContext } from "@/app/providers/AuthContext";
 
 
