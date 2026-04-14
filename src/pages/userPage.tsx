@@ -1,16 +1,35 @@
-import { IUser } from "@/shared/types/types"
+import { IUser } from "@/entities/user/IUser"
 import { useState, useEffect } from "react";
-import { Spin } from "antd";
+import { Spin, Modal, Input, Form } from "antd";
 import { UserCard } from "@/entities/user/ui/UserCard";
-
-
-
-
+import { EditUserModal } from "@/features/EditUserModal";
 
 export function UserPage() {
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editingUser, setEditingUser] = useState<IUser | null>(null);
+    const [form] = Form.useForm();
     const [users, setUsers] = useState<IUser[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const showEditModal = (user: IUser) => {
+        setEditingUser(user);
+        setIsEditModalOpen(true);
+    };
+
+    const handleUpdateUser = (updatedUser: IUser) => {
+        const values = form.getFieldsValue();
+        setUsers(prev => prev.map(u => u.id === editingUser?.id ? updatedUser : u));
+        setIsEditModalOpen(false);
+    }
+
+    const handleDelete = (id: string) => {
+        Modal.confirm({
+            title: 'are you sure?',
+            content: 'eto deystvie nelzya budet otmenit',
+            onOk: () => setUsers(users.filter(u => u.id !== id)),
+        });
+    };
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -46,13 +65,19 @@ export function UserPage() {
             {users.map((user) => (
                 <UserCard
                     key={user.id}
-                    id={user.id}
-                    name={user.name}
-                    createdAt={user.createdAt}
-                    avatar={user.avatar}
+                    {...user}
+                    onEdit={() => showEditModal(user)}
+                    onDelete={() => handleDelete(user.id)}
                 />
             ))}
+
         </div>
+        <EditUserModal
+            isOpen={isEditModalOpen}
+            user={editingUser}
+            onClose={() => setIsEditModalOpen(false)}
+            onSave={handleUpdateUser}
+        />
     </>
 
 
